@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 {% load static %}
+{% csrf_token %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -23,15 +24,33 @@
             <h1 class="main__title">Рецепты</h1>
             <ul class="tags">
                 <li class="tags__item">
-                    <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange tags__checkbox_active" href="{% static '#' %}"></a>
+                    {% if 'Breakfast' in request.get_full_path %}
+                        <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange tags__checkbox_active" href="{{request.get_full_path|cut:'Breakfast'}}"></a>
+                    {% elif 'tag' not in request.get_full_path %}
+                        <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange tags__checkbox_active" href="{{request.get_full_path}}?tag=Breakfast"></a>
+                    {% else %}
+                        <a id="breakfast" class="tags__checkbox tags__checkbox_style_orange " href="{{request.get_full_path}},Breakfast}}"></a>
+                    {% endif %}
                     <span class="tags__label">Завтрак</span>
                 </li>
                 <li class="tags__item">
-                    <a id="lunch" class="tags__checkbox tags__checkbox_style_green tags__checkbox_active" href="{% static '#' %}"></a>
-                    <span for="lunch" class="tags__label">Обед</span>
+                    {% if 'Lunch' in request.get_full_path %}
+                        <a id="lunch" class="tags__checkbox tags__checkbox_style_green tags__checkbox_active" href="{{request.get_full_path|cut:'Lunch'}}"></a>
+                    {% elif 'tag' not in request.get_full_path %}
+                        <a id="lunch" class="tags__checkbox tags__checkbox_style_green tags__checkbox_active" href="{{request.get_full_path}}?tag=Lunch"></a>
+                    {% else %}
+                        <a id="lunch" class="tags__checkbox tags__checkbox_style_green " href="{{request.get_full_path}},Lunch"></a>
+                    {% endif %}
+                        <span for="lunch" class="tags__label">Обед</span>
                 </li>
                 <li class="tags__item">
-                    <a id="dinner" class="tags__checkbox tags__checkbox_style_purple tags__checkbox_active" href="{% static '#' %}"></a>
+                    {% if 'Dinner' in request.get_full_path %}
+                        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple tags__checkbox_active" href="{{request.get_full_path|cut:'Dinner'}}"></a>
+                    {% elif 'tag' not in request.get_full_path %}
+                        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple tags__checkbox_active" href="{{request.get_full_path}}?tag=Dinner"></a>
+                    {% else %}
+                        <a id="dinner" class="tags__checkbox tags__checkbox_style_purple " href="{{request.get_full_path}},Dinner"></a>
+                    {% endif %}
                     <label for="dinner" class="tags__label">Ужин</label>
                 </li>
             </ul>
@@ -49,15 +68,7 @@
         {% endif %}
     
     </main>
-    <footer class="footer">
-        <div class="footer__container container">
-            <a href="{% static '#' %}" class="footer__brand link">Продуктовый помощник</a>
-            <ul class="footer__items">
-                <li class="footer__item"><a href="{% static '#' %}" class="footer__link link">Об авторе </a></li>
-                <li class="footer__item"><a href="{% static '#' %}" class="footer__link link">Технологии</a></li>
-            </ul>
-        </div>
-    </footer>
+    {% include 'includes/footer.html' %}
 <script src="{% static './js/components/MainCards.js' %}"></script>
 
 <script src="{% static './js/components/Purchases.js' %}"></script>

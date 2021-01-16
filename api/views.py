@@ -4,10 +4,17 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-from recipes.models import Recipe, Favorite, Follow
+from recipes.models import Recipe, Favorite, Follow, Ingredient
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
-User = get_user_model()
+from rest_framework import filters
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from api.serializers import IngredientsSerializer
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+
+User = get_user_model() 
 
 @method_decorator(csrf_exempt, name='dispatch')
 class Favorites(LoginRequiredMixin, View):
@@ -48,6 +55,13 @@ class Subscription(LoginRequiredMixin, View):
         follow = get_object_or_404(Follow, user=request.user, author=author)
         follow.delete()
         return JsonResponse({"success": True})
+
+class Ingredients(generics.ListCreateAPIView):
+    queryset = Ingredient.objects.all()
+    serializer_class = IngredientsSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title',] 
+        
 
 # Create your views here.
 

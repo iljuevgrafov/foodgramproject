@@ -39,7 +39,7 @@
 
         </div>
 
-        <div class="author-subscribe" data-author="{{ recipe.author }}">
+        <div class="author-subscribe" data-author="{{ author.id }}">
             <p style="padding: 0 0 2em 0;"><button class="button button_style_light-blue button_size_subscribe" name="subscribe" data-out>Подписаться на автора</button></p>
         </div>
         <div class="card-list" >
@@ -54,15 +54,7 @@
         {% endif %}
 
     </main>
-    <footer class="footer">
-        <div class="footer__container container">
-            <a href="#" class="footer__brand link">Продуктовый помощник</a>
-            <ul class="footer__items">
-                <li class="footer__item"><a href="#" class="footer__link link">Об авторе </a></li>
-                <li class="footer__item"><a href="#" class="footer__link link">Технологии</a></li>
-            </ul>
-        </div>
-    </footer>
+    {% include 'includes/footer.html' %}
   <script src="{% static './js/components/MainCards.js' %}"></script>
 
   <script src="{% static './js/components/Purchases.js' %}"></script>

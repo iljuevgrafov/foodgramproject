@@ -12,6 +12,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('ingredients/', apiviews.Ingredients.as_view()),
     path("admin/", admin.site.urls),
     path("auth/", include("django.contrib.auth.urls")),
     path("signup/", usersviews.SignUp.as_view(), name="signup"),
@@ -25,5 +26,7 @@ urlpatterns = [
     path('subscriptions/<int:author_id>', apiviews.Subscription.as_view()),
     path('<str:author>/', foodgramviews.authors_recipes, name="authors_recipes"),
     path('recipe/<int:recipe_id>/', foodgramviews.recipe, name="recipe"),
+    path('change_recipe/<int:recipe_id>/', foodgramviews.change_recipe, name="change_recipe"),
     path("",foodgramviews.index, name='index'),
+    path("buing_list/", foodgramviews.buing_list, name='buing_list')
 ]   

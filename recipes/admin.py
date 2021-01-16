@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Recipe, Ingridient, RecipeIngridient, Tag, BuingList, Favorite, Follow
+from .models import Recipe, Ingredient, RecipeIngredient, Tag, Favorite, Follow
 
 # class RecipeIngridientInline(admin.StackedInline):
 #     model = RecipeIngridient
@@ -10,19 +10,19 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ("author", "title", "image", "text", "preparing_time")
     # inlines = (RecipeIngridientInline,)
 
-class RecipeIngridientAdmin(admin.ModelAdmin):
-    list_display = ("ingridient","amount", "recipe")
+class RecipeIngredientAdmin(admin.ModelAdmin):
+    list_display = ("ingredient","amount", "recipe")
     # inlines = (RecipeIngridientInline,)
 
-class IngridientAdmin(admin.ModelAdmin):
+class IngredientAdmin(admin.ModelAdmin):
     list_display = ("title", "dimension")
     # inlines = (RecipeIngridientInline,)
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ("title",)
 
-class BuingListAdmin(admin.ModelAdmin):
-    list_display = ("user", )
+# class BuingListAdmin(admin.ModelAdmin):
+#     list_display = ("user", )
 
 class FavoriteAdmin(admin.ModelAdmin):
     list_display = ("user", "recipe")
@@ -33,9 +33,9 @@ class FollowAdmin(admin.ModelAdmin):
 # Register your models here.
 
 admin.site.register(Recipe, RecipeAdmin)
-admin.site.register(Ingridient, IngridientAdmin)
-admin.site.register(RecipeIngridient, RecipeIngridientAdmin)
+admin.site.register(Ingredient, IngredientAdmin)
+admin.site.register(RecipeIngredient, RecipeIngredientAdmin)
 admin.site.register(Tag, TagAdmin)
-admin.site.register(BuingList, BuingListAdmin)
+# admin.site.register(BuingList, BuingListAdmin)
 admin.site.register(Favorite, FavoriteAdmin)
 admin.site.register(Follow, FollowAdmin)

@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class Ingridient(models.Model):
+class Ingredient(models.Model):
     title = models.CharField(max_length=50,null=True, verbose_name='Название')
     dimension = models.CharField(max_length=10,null=True, verbose_name='Еденица измерения')
 
@@ -16,23 +16,25 @@ class Recipe(models.Model):
     title = models.CharField(max_length = 100)
     image = models.ImageField(upload_to='static/images/recipes/', blank=True, null=True)
     text = models.TextField(null=True)
-    ingridients = models.ManyToManyField(Ingridient, through='RecipeIngridient') 
+    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient') 
     tag = models.ManyToManyField('Tag')
     preparing_time = models.PositiveSmallIntegerField(default=0, null=True)
 
     def __str__(self):
         return self.title
 
-class RecipeIngridient(models.Model):
-    ingridient = models.ForeignKey(Ingridient, on_delete = models.CASCADE, default = '0')
+class RecipeIngredient(models.Model):
+    ingredient = models.ForeignKey(Ingredient, on_delete = models.CASCADE, default = '0')
     amount = models.PositiveSmallIntegerField(null=True)
     recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE, default = '0')
+    
 
     def __str__(self):
-        return str(self.ingridient)
+        return str(self.ingredient)
     
 class Tag(models.Model):
-    title = models.CharField(max_length= 100)
+    title = models.CharField(max_length=100)
+    en_title = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return self.title
@@ -50,9 +52,9 @@ class Favorite(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='hasinfavorites', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='favorites',on_delete=models.CASCADE)
 
-class BuingList(models.Model):
-    user = models.ForeignKey(User, related_name='buinglists', on_delete=models.CASCADE)
-    items = models.ManyToManyField(RecipeIngridient)
+# class BuingList(models.Model):
+#     user = models.ForeignKey(User, related_name='buinglists', on_delete=models.CASCADE)
+#     items = models.ManyToManyField(RecipeIngredient)
 
     
 
