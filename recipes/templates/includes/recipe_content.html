@@ -1,5 +1,5 @@
 {% load static %}
-<div class="card" data-id="120">
+<div class="card" data-id="{{recipe.id}}">
     <a href="{% url 'recipe' recipe_id=recipe.id %}" class="link" target="_blank"><img src="{{ STATIC_URL }}/{{ recipe.image }}" alt="{{ recipe.title }}" class="card__image"></a>
     <div class="card__body">
         <a class="card__title link" href="{% url 'recipe' recipe_id=recipe.id %}" target="_blank">{{ recipe.title }}</a>
@@ -20,6 +20,13 @@
         </div>
     </div>
     <div class="card__footer">
-        <button class="button button_style_light-blue" name="purchases" data-out><span class="icon-plus button__icon"></span>Добавить в покупки</button>
+    {% if user.is_authenticated %}
+        {% if recipe not in request.user.shoplist.recipes.all %}
+            <button class="button button_style_light-blue" name="purchases" data-out><span class="icon-plus button__icon"></span>Добавить в покупки</button>
+        {% else %}
+            <button class="button button_style_light-blue-outline" name="purchases"><span class="icon-check button__icon"></span> Рецепт добавлен</button>
+        {% endif %}
+    {% endif %}
+        
     </div>
 </div>      

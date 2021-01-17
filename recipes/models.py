@@ -16,7 +16,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length = 100)
     image = models.ImageField(upload_to='static/images/recipes/', blank=True, null=True)
     text = models.TextField(null=True)
-    ingredients = models.ManyToManyField(Ingredient, through='RecipeIngredient') 
+    ingredients = models.ManyToManyField(Ingredient, through='recipeingredient') 
     tag = models.ManyToManyField('Tag')
     preparing_time = models.PositiveSmallIntegerField(default=0, null=True)
 
@@ -52,10 +52,7 @@ class Favorite(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='hasinfavorites', on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='favorites',on_delete=models.CASCADE)
 
-# class BuingList(models.Model):
-#     user = models.ForeignKey(User, related_name='buinglists', on_delete=models.CASCADE)
-#     items = models.ManyToManyField(RecipeIngredient)
 
-    
-
-# Create your models here.
+class ShopList(models.Model):
+    user = models.OneToOneField(User, related_name='shoplist', on_delete=models.CASCADE, unique=True)
+    recipes = models.ManyToManyField(Recipe, related_name='inshoplist')

@@ -1,66 +1,52 @@
 <!doctype html>
 <html lang="en">
+    {% load static %}
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Список покупок</title>
-    <link rel="stylesheet" href="./pages/shopList.css">
+    <link rel="stylesheet" href="{% static './pages/shopList.css' %}">
+    <link rel="stylesheet" href="{% static './pages/single.css' %}">
 </head>
 <body class="body">
 <header class="header">
     <nav class="nav">
-        <div class="nav__container container">
-            <ul class="nav__items list">
-                <li class="nav__item"><a href="#" class="nav__link link">Рецепты</a></li>
-                <li class="nav__item"><a href="#" class="nav__link link">Мои подписки</a></li>
-                <li class="nav__item"><a href="#" class="nav__link link">Создать рецепт</a></li>
-                <li class="nav__item"><a href="#" class="nav__link link">Избранное</a></li>
-                <li class="nav__item nav__item_active"><a href="#" class="nav__link link">Список покупок</a><span class="badge badge_style_blue nav__badge" id="counter">4</span></li>
-            </ul>
-            <ul class="nav__items list">
-                <li class="nav__item"><a href="#" class="nav__link link">Изменить пароль</a></li>
-                <li class="nav__item"><a href="#" class="nav__link link">Выход</a></li>
-            </ul>
-        </div>
+        {% include 'includes/nav_auth.html' %}
     </nav>
 </header>
 <main class="main container">
+    {% csrf_token %}
     <div class="main__header">
         <h1 class="main__title">Список покупок</h1>
     </div>
+    {% if shop_list.recipes.all.count == 0 %}
+    <div class="single-card__info">
+        <div class="single-card__section">
+        <h3 class="single-card__section-title">Ваш список покупок пока пуст</h3>
+    </div>
+    {% endif %}
     <div class="card-list card-list_column">
         <ul class="shopping-list">
-            <li class="shopping-list__item" data-id="111">
+            {% for recipe in shop_list.recipes.all %}
+            <li class="shopping-list__item" data-id="{{recipe.id}}">
                 <div class="recipe recipe_reverse">
-                    <img src="./images/testCardImg.png" alt="какой-то текст" class="recipe__image recipe__image_big">
-                    <h3 class="recipe__title">Французские тосты</h3>
-                    <p class="recipe__text"><span class="icon-time"></span> 20 мин.</p>
+                    <img src="{{ STATIC_URL }}/{{recipe.image}}" alt="{{ recipe.title }}" class="recipe__image recipe__image_big">
+                    <h3 class="recipe__title">{{ recipe.title }}</h3>
+                    <p class="recipe__text"><span class="icon-time"></span> {{ recipe.preparing_time }} мин.</p>
                 </div>
                 <a href="#" class="shopping-list__button link">Удалить</a>
             </li>
-            <li class="shopping-list__item" data-id="1112">
-                <div class="recipe recipe_reverse">
-                    <img src="./images/testCardImg.png" alt="какой-то текст" class="recipe__image recipe__image_big">
-                    <h3 class="recipe__title">Французские тосты</h3>
-                    <p class="recipe__text"><span class="icon-time"></span> 20 мин.</p>
-                </div>
-                <a href="#" class="shopping-list__button link">Удалить</a>
-            </li>
-            <li class="shopping-list__item" data-id="1113">
-                <div class="recipe recipe_reverse">
-                    <img src="./images/testCardImg.png" alt="какой-то текст" class="recipe__image recipe__image_big">
-                    <h3 class="recipe__title">Французские тосты</h3>
-                    <p class="recipe__text"><span class="icon-time"></span> 20 мин.</p>
-                </div>
-                <a href="#" class="shopping-list__button link">Удалить</a>
-            </li>
+            {% endfor %}
         </ul>
-        <a href="#"><button class="button button_style_blue">Скачать список</button></a>
-
-
+        {% if shop_list.recipes.all.count > 0 %}
+            <a href="{% url 'download_shop_list' %}"><button class="button button_style_blue">Скачать список</button></a>      
+        {% endif %}
     </div>
+    
 </main>
 <footer class="footer">
     <div class="footer__container container">
@@ -71,10 +57,10 @@
         </ul>
     </div>
 </footer>
-<script src="./js/config/config.js"></script>
-<script src="./js/components/Header.js"></script>
-<script src="./js/components/ShopList.js"></script>
-<script src="./js/api/Api.js"></script>
-<script src="shopList.js"></script>
+<script src="{% static './js/config/config.js' %}"></script>
+<script src="{% static './js/components/Header.js' %}"></script>
+<script src="{% static './js/components/ShopList.js' %}"></script>
+<script src="{% static './js/api/Api.js' %}"></script>
+<script src="{% static 'shopList.js' %}"></script>
 </body>
 </html>
